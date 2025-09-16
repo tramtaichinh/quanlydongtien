@@ -96,8 +96,24 @@ header{position:sticky;top:0;z-index:50;background:#0b0e12f2;backdrop-filter:sat
 .cta-hero:hover::after{transform:translateX(120%)}
 .pulse{animation:pulse 1.8s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 #f7b80155}70%{box-shadow:0 0 0 14px #f7b80100}100%{box-shadow:0 0 0 0 #f7b80100}}
-.hero-card{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#10131a,#0d1117)}
-.hero-card img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
+
+/* ===== New fade-in / fade-out effects for Title & Buttons ===== */
+.fade-cycle{
+  animation:fadeCycle 4.5s ease-in-out infinite alternate;
+}
+@keyframes fadeCycle{
+  0%{opacity:.65; transform:translateY(2px)}
+  50%{opacity:1; transform:translateY(0)}
+  100%{opacity:.75; transform:translateY(-1px)}
+}
+.fade-btn{
+  animation:fadeBtn 3s ease-in-out infinite;
+}
+@keyframes fadeBtn{
+  0%{filter:brightness(.95)}
+  50%{filter:brightness(1.08)}
+  100%{filter:brightness(.98)}
+}
 
 /* Sections */
 .section{padding:clamp(32px, 8vw, 42px) 0}
@@ -215,6 +231,14 @@ footer{border-top:1px solid var(--line);background:#080b10}
     margin:auto;
   }
 }
+
+/* ===== Centered CTA form (giữa màn hình & responsive) ===== */
+#cta .form-wrap{
+  max-width:720px;               /* vừa đẹp cho màn hình ~7-13" */
+  margin:0 auto;                 /* căn giữa */
+}
+#cta .section-title{ text-align:center }
+#cta .note{ color:var(--muted) }
 </style>
 
 <!-- ===== Schema.org FAQ for AI/SEO (không hiển thị ra UI) ===== -->
@@ -289,10 +313,10 @@ footer{border-top:1px solid var(--line);background:#080b10}
     <div class="hero-grid">
       <div>
         <div class="tag">HÃY MUA DÒNG TIỀN ĐỪNG CHỈ MUA TÀI SẢN</div>
-        <h2 class="title">Đất nền <span class="hl">không chỉ để giữ</span> - hãy để chúng tôi biến thành <span class="hl">dòng tiền tự động</span>.</h2>
+        <h2 class="title fade-cycle">Đất nền <span class="hl">không chỉ để giữ</span> - hãy để chúng tôi biến thành <span class="hl">dòng tiền tự động</span>.</h2>
         <p class="lead">Tư vấn mô hình cho thuê phù hợp khu vực, tối ưu lấp đầy & chuẩn hóa hồ sơ dòng tiền để dễ chốt giao dịch khi cần.</p>
         <div class="btns">
-          <a class="cta-hero pulse" href="#cta"><span class="cta-label">NHẬN TƯ VẤN MIỄN PHÍ NGAY</span></a>
+          <a class="cta-hero pulse fade-btn" href="#cta"><span class="cta-label">NHẬN TƯ VẤN MIỄN PHÍ NGAY</span></a>
           <a class="btn" href="#tools">Dùng công cụ tính</a>
         </div>
       </div>
@@ -451,46 +475,35 @@ footer{border-top:1px solid var(--line);background:#080b10}
     </div>
   </section>
 
-  <!-- CTA FORM -->
+  <!-- CTA FORM (centered, removed right panel) -->
   <section id="cta" class="container section">
-    <div class="grid-2">
-      <div class="panel">
-        <h2 class="section-title">TƯ VẤN MIỄN PHÍ</h2>
-        <p class="note">Điền thông tin - chúng tôi sẽ gọi lại tư vấn với tài chính phù hợp.</p>
-        <form id="lead" novalidate>
-          <div class="grid-2" style="gap:10px">
-            <div><label>Họ và tên *</label><input id="name" required placeholder="Nguyễn Văn A"></div>
-            <div><label>SĐT/Zalo *</label><input id="phone" required pattern="^[0-9+ ()-]{8,}$" placeholder="09xx xxx xxx"></div>
+    <div class="panel form-wrap">
+      <h2 class="section-title fade-cycle">TƯ VẤN MIỄN PHÍ</h2>
+      <p class="note" style="text-align:center;margin-top:-8px">Điền thông tin - chúng tôi sẽ gọi lại tư vấn với tài chính phù hợp.</p>
+      <form id="lead" novalidate>
+        <div class="grid-2" style="gap:10px">
+          <div><label>Họ và tên *</label><input id="name" required placeholder="Nguyễn Văn A"></div>
+          <div><label>SĐT/Zalo *</label><input id="phone" required pattern="^[0-9+ ()-]{8,}$" placeholder="09xx xxx xxx"></div>
+        </div>
+        <div class="grid-2" style="gap:10px">
+          <div><label>Email</label><input id="email" type="email" placeholder="you@email.com"></div>
+          <div><label>Tài chính *</label>
+            <select id="need" required>
+              <option value="">- Chọn -</option>
+              <option>Dưới 1 tỷ</option>
+              <option>1 - 3 tỷ</option>
+              <option>Trên 3 tỷ</option>
+            </select>
           </div>
-          <div class="grid-2" style="gap:10px">
-            <div><label>Email</label><input id="email" type="email" placeholder="you@email.com"></div>
-            <div><label>Tài chính *</label>
-              <select id="need" required>
-                <option value="">- Chọn -</option>
-                <option>Dưới 1 tỷ</option>
-                <option>1 - 3 tỷ</option>
-                <option>Trên 3 tỷ</option>
-              </select>
-            </div>
-          </div>
-          <label>Thông tin thêm</label>
-          <textarea id="msg" rows="4" placeholder="Nhu cầu, mong muốn cũng như cần thêm thông tin gì bạn hãy nhập ở đây"></textarea>
-          <div class="btns" style="justify-content:space-between;margin-top:10px">
-            <span class="note">Bằng cách gửi, bạn đồng ý để chúng tôi liên hệ tư vấn.</span>
-            <button class="cta-hero pulse" type="submit"><span class="cta-label">ĐĂNG KÝ NGAY</span></button>
-          </div>
-          <div id="ok" class="success" style="display:none;color:var(--ok);font-weight:700;margin-top:10px">✅ Đã nhận thông tin! Chúng tôi sẽ liên hệ sớm.</div>
-        </form>
-      </div>
-
-      <div class="panel">
-        <h3 style="margin:0 0 8px">Thông tin liên hệ</h3>
-        <!-- ĐÃ CHUYỂN HOTLINE THÀNH LINK tel: -->
-        <div class="tick"><div class="dot">☎</div><div><b>Hotline:</b> <a class="tel-link" href="tel:0968333342" itemprop="telephone">0968.3333.42</a></div></div>
-        <div class="tick"><div class="dot">🏢</div><div><b>Văn phòng:</b> 426 Phạm Ngọc Thạch, Bình Dương, TP.HCM</div></div>
-        <div class="tick"><div class="dot">⏰</div><div><b>Giờ làm việc:</b> T2-T6 8:00-17:00 • T7 8:00-12:00</div></div>
-        <div class="tick"><div class="dot">🌐</div><div><b>Website</b> Datnendongtien.com</div></div>
-      </div>
+        </div>
+        <label>Thông tin thêm</label>
+        <textarea id="msg" rows="4" placeholder="Nhu cầu, mong muốn cũng như cần thêm thông tin gì bạn hãy nhập ở đây"></textarea>
+        <div class="btns" style="justify-content:center;margin-top:10px">
+          <button class="cta-hero pulse fade-btn" type="submit"><span class="cta-label">ĐĂNG KÝ NGAY</span></button>
+        </div>
+        <p class="note" style="text-align:center;margin-top:8px">Bằng cách gửi, bạn đồng ý để chúng tôi liên hệ tư vấn.</p>
+        <div id="ok" class="success" style="display:none;color:var(--ok);font-weight:700;margin-top:10px;text-align:center">✅ Đã nhận thông tin! Chúng tôi sẽ liên hệ sớm.</div>
+      </form>
     </div>
   </section>
 </main>
@@ -513,7 +526,7 @@ footer{border-top:1px solid var(--line);background:#080b10}
 <!-- Floating side buttons -->
 <div class="float-wrap">
   <a class="fbtn call" href="tel:0968333342" aria-label="Gọi ngay"><span class="emoji">📞</span> Gọi ngay</a>
-  <a class="fbtn zalo" href="https://zalo.me/0968333342" target="_blank" rel="noopener" aria-label="Zalo"><span class="emoji">💬</span> Zalo</a>
+  <a class="fbtn zalo" href="https://zalo.me/2906623907642047221" target="_blank" rel="noopener" aria-label="Zalo"><span class="emoji">💬</span> Zalo</a>
 </div>
 
 <script>
